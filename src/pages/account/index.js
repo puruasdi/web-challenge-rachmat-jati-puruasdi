@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -18,10 +18,13 @@ import InformationOutline from 'mdi-material-ui/InformationOutline'
 // ** Demo Tabs Imports
 import TabInfo from 'src/views/account-settings/TabInfo'
 import TabAccount from 'src/views/account-settings/TabAccount'
-import TabSecurity from 'src/views/account-settings/TabSecurity'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+
+//Router
+import { useRouter } from 'next/router'
+import { AuthContext } from 'src/context/auth-context'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -42,12 +45,23 @@ const TabName = styled('span')(({ theme }) => ({
 }))
 
 const AccountSettings = () => {
+  const router = useRouter();
+  const { authState, isUserAuthenticated } = useContext(AuthContext);
+
   // ** State
   const [value, setValue] = useState('account')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    // checks if the user is authenticated
+    isUserAuthenticated()
+      ? router.push("/account")
+      : router.push("/");
+  }, [authState]);
+
 
   return (
     <Card>
@@ -67,15 +81,6 @@ const AccountSettings = () => {
             }
           />
           <Tab
-            value='security'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <LockOpenOutline />
-                <TabName>Security</TabName>
-              </Box>
-            }
-          />
-          <Tab
             value='info'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -87,13 +92,14 @@ const AccountSettings = () => {
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
-          <TabAccount />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
+          <TabAccount
+            user={authState.userData}
+          />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
+          <TabInfo
+            user={authState.userData}
+          />
         </TabPanel>
       </TabContext>
     </Card>
