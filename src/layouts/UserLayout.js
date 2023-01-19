@@ -1,5 +1,4 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** Layout Imports
@@ -15,6 +14,9 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
 
+//Context
+import { DashboardProvider } from 'src/context/dashboard-context'
+
 const UserLayout = ({ children }) => {
   // ** Hooks
   const { settings, saveSettings } = useSettings()
@@ -29,39 +31,27 @@ const UserLayout = ({ children }) => {
    */
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
 
-  const UpgradeToProImg = () => {
-    return (
-      <Box sx={{ mx: 'auto' }}>
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
-        >
-          <img width={230} alt='upgrade to premium' src={`/images/misc/upgrade-banner-${settings.mode}.png`} />
-        </a>
-      </Box>
-    )
-  }
-
   return (
-    <VerticalLayout
-      hidden={hidden}
-      settings={settings}
-      saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
-      verticalAppBarContent={(
-        props // AppBar Content
-      ) => (
-        <VerticalAppBarContent
-          hidden={hidden}
-          settings={settings}
-          saveSettings={saveSettings}
-          toggleNavVisibility={props.toggleNavVisibility}
-        />
-      )}
-    >
-      {children}
-    </VerticalLayout>
+    <DashboardProvider>
+      <VerticalLayout
+        hidden={hidden}
+        settings={settings}
+        saveSettings={saveSettings}
+        verticalNavItems={VerticalNavItems()} // Navigation Items
+        verticalAppBarContent={(
+          props // AppBar Content
+        ) => (
+          <VerticalAppBarContent
+            hidden={hidden}
+            settings={settings}
+            saveSettings={saveSettings}
+            toggleNavVisibility={props.toggleNavVisibility}
+          />
+        )}
+      >
+        {children}
+      </VerticalLayout>
+    </DashboardProvider>
   )
 }
 

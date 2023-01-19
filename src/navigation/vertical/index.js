@@ -25,33 +25,6 @@ const navigation = () => {
       icon: AccountCogOutline,
       path: '/account'
     },
-    {
-      sectionTitle: 'Logout'
-    },
-    {
-      title: 'Logout',
-      icon: Login,
-      path: '/',
-      openInNewTab: false
-    },
-    {
-      sectionTitle: 'User Interface'
-    },
-    {
-      title: 'Cards',
-      icon: CreditCardOutline,
-      path: '/cards'
-    },
-    {
-      title: 'Tables',
-      icon: Table,
-      path: '/tables'
-    },
-    {
-      icon: CubeOutline,
-      title: 'Form Layouts',
-      path: '/form-layouts'
-    }
   ]
 }
 

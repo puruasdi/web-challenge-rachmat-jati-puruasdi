@@ -14,12 +14,31 @@ import ModeToggler from 'src/@core/layouts/components/shared-components/ModeTogg
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
+//React
+import { useContext, useState } from 'react'
+
+//Context
+import { DashboardContext } from 'src/context/dashboard-context'
+
 const AppBarContent = props => {
   // ** Props
   const { hidden, settings, saveSettings, toggleNavVisibility } = props
 
+  //Context
+  const dashboardContext = useContext(DashboardContext);
+
+  //State
+  const [search, setSearch] = useState('')
+
   // ** Hook
   const hiddenSm = useMediaQuery(theme => theme.breakpoints.down('sm'))
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      dashboardContext.setSearch(search)
+      dashboardContext.setCategory('')
+    }
+  };
 
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -35,6 +54,9 @@ const AppBarContent = props => {
         ) : null}
         <TextField
           size='small'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleKeyDown}
           sx={{ '& .MuiOutlinedInput-root': { borderRadius: 4 } }}
           InputProps={{
             startAdornment: (

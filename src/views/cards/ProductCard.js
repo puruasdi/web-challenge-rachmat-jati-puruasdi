@@ -9,6 +9,9 @@ import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import Grid from '@mui/material/Grid'
 
+// ** Icons Imports
+import CartPlus from 'mdi-material-ui/CartPlus'
+
 // Styled Grid component
 const StyledGrid1 = styled(Grid)(({ theme }) => ({
   display: 'flex',
@@ -41,35 +44,57 @@ const StyledGrid2 = styled(Grid)(({ theme }) => ({
 // Styled component for the image
 const Img = styled('img')(({ theme }) => ({
   height: '11rem',
-  borderRadius: theme.shape.borderRadius
+  width: '11rem',
+  borderRadius: theme.shape.borderRadius,
+  objectFit: 'cover'
 }))
 
-const CardHorizontalRatings = () => {
+const ProductCard = (props) => {
+  const product = props.product;
+
   return (
     <Card>
       <Grid container spacing={6}>
         <StyledGrid1 item xs={12} md={6} lg={7}>
           <CardContent>
-            <Typography variant='h6' sx={{ marginBottom: 2 }}>
-              Stumptown Roasters
+            <Typography variant='h6'>
+              {product?.title}
+            </Typography>
+            <Typography variant="caption" display="block" sx={{ marginBottom: 2 }}>
+              {product.brand} | {product.category}
             </Typography>
             <Box sx={{ mb: 4.75, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-              <Rating readOnly value={4.2} name='read-only' precision={0.5} sx={{ marginRight: 2 }} />
-              <Typography variant='body2'>5 Star | 98 reviews</Typography>
+              <Rating readOnly value={product.rating} name='read-only' precision={0.5} sx={{ marginRight: 2 }} />
+              <Typography variant='body2'>{product.rating}</Typography>
             </Box>
             <Typography variant='body2' sx={{ marginBottom: 4 }}>
-              Before there was a United States of America, there were coffee houses, because how are you supposed to
-              build.
+              {product?.description}
+            </Typography>
+            <Typography sx={{ fontWeight: 500, marginBottom: 3 }}>
+              Price:{' '}
+              <Box component='span' sx={{ fontWeight: 'bold' }}>
+                ${product.price}
+              </Box>
+            </Typography>
+            <Typography variant="body2">
+              Stock:{' '}
+              <Box component='span'>
+                {product.stock}
+              </Box>
             </Typography>
           </CardContent>
-          <CardActions className='card-action-dense' sx={{ width: '100%' }}>
-            <Button>Location</Button>
-            <Button>Reviews</Button>
+          <CardActions className='card-action-dense' sx={{ width: '100%', marginTop: "auto" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+              <Button>
+                <CartPlus fontSize='small' sx={{ marginRight: 2 }} />
+                Add to Card
+              </Button>
+            </Box>
           </CardActions>
         </StyledGrid1>
         <StyledGrid2 item xs={12} md={6} lg={5}>
           <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Img alt='Stumptown Roasters' src='/images/cards/analog-clock.jpg' />
+            <Img alt='Stumptown Roasters' src={product.thumbnail} />
           </CardContent>
         </StyledGrid2>
       </Grid>
@@ -77,4 +102,4 @@ const CardHorizontalRatings = () => {
   )
 }
 
-export default CardHorizontalRatings
+export default ProductCard

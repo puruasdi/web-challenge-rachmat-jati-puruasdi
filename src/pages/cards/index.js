@@ -17,11 +17,11 @@ import CardNavigation from 'src/views/cards/CardNavigation'
 import CardWithCollapse from 'src/views/cards/CardWithCollapse'
 import CardVerticalRatings from 'src/views/cards/CardVerticalRatings'
 import CardNavigationCenter from 'src/views/cards/CardNavigationCenter'
-import CardHorizontalRatings from 'src/views/cards/CardHorizontalRatings'
+import CardHorizontalRatings from 'src/views/cards/ProductCard'
 
 const CardBasic = () => {
   return (
-    <Grid container spacing={6}>
+    <Grid container spacing={6} sx={{ alignItems: 'stretch' }}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
         <Typography variant='h5'>Basic Cards</Typography>
       </Grid>
@@ -37,9 +37,9 @@ const CardBasic = () => {
       <Grid item xs={12} sm={6}>
         <CardMobile />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      {/* <Grid item xs={12} sm={6}>
         <CardHorizontalRatings />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12} sm={6} md={4}>
         <CardAppleWatch />
       </Grid>

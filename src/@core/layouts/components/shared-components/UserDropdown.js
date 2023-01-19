@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useContext } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -23,6 +23,10 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 
+
+//Context
+import { AuthContext } from 'src/context/auth-context'
+
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -39,6 +43,9 @@ const UserDropdown = () => {
   // ** Hooks
   const router = useRouter()
 
+  //Context
+  const { setAuthState } = useContext(AuthContext);
+
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
   }
@@ -48,6 +55,13 @@ const UserDropdown = () => {
       router.push(url)
     }
     setAnchorEl(null)
+  }
+
+  function handleLogout() {
+    setAuthState({
+      token: "",
+      userData: ""
+    })
   }
 
   const styles = {
@@ -106,7 +120,7 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/account/')}>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
@@ -144,7 +158,7 @@ const UserDropdown = () => {
           </Box>
         </MenuItem> */}
         <Divider />
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/pages/login')}>
+        <MenuItem sx={{ py: 2 }} onClick={() => handleLogout('')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>
